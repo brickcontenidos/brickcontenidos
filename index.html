@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRICK | Construí tu Historia Cinematográfica</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+        }
+        .bg-brick-red { background-color: #E63946; }
+        .text-brick-red { color: #E63946; }
+        .border-brick-red { border-color: #E63946; }
+        .ring-brick-red { --tw-ring-color: #E63946; }
+
+        .video-background-container {
+            position: relative;
+            width: 100%;
+            height: 70vh;
+            overflow: hidden;
+        }
+        .video-background-container iframe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, #0a0a0a 5%, rgba(0,0,0,0.8) 50%, #0a0a0a 95%);
+        }
+        .section-hidden {
+            display: none;
+        }
+        .section-visible {
+            display: block;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .movie-poster-card {
+            aspect-ratio: 3 / 4;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .movie-poster-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .movie-poster-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 10%, transparent 50%);
+        }
+        
+        .section-with-bg {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .section-with-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(10, 10, 10, 0.9);
+            z-index: 1;
+        }
+        .section-content {
+            position: relative;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body class="text-white">
+
+    <!-- HERO SECTION -->
+    <header class="video-background-container">
+        <iframe id="hero-video-iframe" src="https://www.youtube.com/embed/YOUTUBE_ID_GENERAL?autoplay=1&mute=1&loop=1&playlist=YOUTUBE_ID_GENERAL&controls=0&showinfo=0&autohide=1&modestbranding=1&vq=hd1080" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <div class="video-overlay"></div>
+        <div class="relative z-10 flex flex-col items-center justify-center h-full text-center p-4">
+            <img src="./img/logo-brick-white.png" alt="Logo de BRICK" class="h-16 mb-4" onerror="this.onerror=null;this.src='https://placehold.co/200x64/0a0a0a/ffffff?text=BRICK';">
+            <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-tight">Construyamos tu historia.</h1>
+            <p class="text-lg md:text-xl text-gray-300 mt-2">Cada marca tiene una película esperando ser contada.</p>
+            <a href="#step1" class="mt-8 bg-brick-red text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-red-700 transition-all duration-300">
+                Empezar
+            </a>
+        </div>
+    </header>
+
+    <main class="container mx-auto">
+
+        <!-- LADRILLO 1: GÉNERO -->
+        <section id="step1" class="py-16">
+            <div class="section-content px-4 md:px-8 text-center">
+                <h2 class="text-3xl font-bold mb-2">Ladrillo Uno: GÉNERO</h2>
+                <p class="text-gray-400 mb-12">Seleccioná el género en el que se encuentra tu marca.</p>
+                <div id="genre-selector" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 max-w-7xl mx-auto">
+                    <!-- Las tarjetas de género se generarán aquí con JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- LADRILLO 2: ESCENARIO -->
+        <section id="step2" class="py-16 section-hidden">
+             <div class="section-content px-4 md:px-8 text-center">
+                <h2 class="text-3xl font-bold mb-2">Ladrillo Dos: Elegí tu escenario</h2>
+                <p class="text-gray-400 mb-12">¿En qué punto de la historia se encuentra tu marca?</p>
+                <div id="scenario-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                    <!-- Los escenarios se generarán aquí con JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- LADRILLO 3: NIVEL DE PRODUCCIÓN / EDICIÓN -->
+        <section id="step3" class="py-16 section-hidden">
+            <div class="section-content px-4 md:px-8 text-center">
+                <h2 id="step3-title" class="text-3xl font-bold mb-2">Ladrillo Tres: Definí el nivel</h2>
+                <p id="step3-subtitle" class="text-gray-400 mb-12">Desde una escena clave hasta una superproducción.</p>
+                <div id="level-container" class="grid md:grid-cols-3 gap-8">
+                    <!-- Los niveles se generarán aquí con JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- LADRILLO 4: LADRILLOS EXTRAS -->
+        <section id="step4" class="py-16 section-hidden">
+            <div class="section-content px-4 md:px-8 text-center">
+                <h2 id="step4-title" class="text-3xl font-bold mb-2">Ladrillos Extras: Arma tu historia</h2>
+                <p id="step4-subtitle" class="text-gray-400 mb-12">Imaginá tu producción ideal. Agregá personajes y efectos especiales.</p>
+                <div id="addons-container" class="bg-gray-900 p-6 md:p-8 rounded-lg max-w-5xl mx-auto">
+                    <!-- Los Add-ons se generarán aquí con JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- LADRILLO FINAL: RESUMEN Y FORMULARIO -->
+        <section id="step5" class="py-16 section-hidden">
+             <div class="section-content px-4 md:px-8">
+                <h2 class="text-3xl font-bold mb-12 text-center">Corte Final: Tu Hoja de Rodaje</h2>
+                <div class="grid lg:grid-cols-5 gap-8 bg-gray-900 p-6 md:p-8 rounded-lg">
+                    <div class="lg:col-span-3">
+                        <h3 class="font-bold text-xl mb-4">Completá tus datos para agendar una charla</h3>
+                        <p class="text-gray-400 mb-6">Nuestro equipo se comunicará con vos para coordinar una <strong>reunión gratuita</strong> y darle vida a tu proyecto.</p>
+                        <form id="client-form">
+                            <div class="mb-4"><label for="client-name" class="block text-gray-400 mb-1">Tu Nombre (Director/a)</label><input type="text" id="client-name" class="w-full bg-gray-800 border border-gray-700 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-brick-red" required></div>
+                            <div class="mb-4"><label for="client-email" class="block text-gray-400 mb-1">Tu Email de Contacto</label><input type="email" id="client-email" class="w-full bg-gray-800 border border-gray-700 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-brick-red" required></div>
+                            <div class="mb-6"><label for="client-business" class="block text-gray-400 mb-1">Nombre de tu Producción (Tu Marca)</label><input type="text" id="client-business" class="w-full bg-gray-800 border border-gray-700 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-brick-red" required></div>
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <button id="submit-button" class="w-full bg-brick-red text-white font-bold text-lg py-3 px-4 rounded-lg hover:bg-red-700 transition-all duration-300 disabled:bg-gray-600 disabled:cursor-not-allowed" disabled>Solicitar Reunión Creativa</button>
+                                <button type="button" id="share-button" class="w-full sm:w-auto bg-gray-700 text-white font-bold text-lg py-3 px-6 rounded-lg hover:bg-gray-600 transition-all duration-300 disabled:bg-gray-800 disabled:cursor-not-allowed flex items-center justify-center gap-2" disabled><i class="fas fa-share-alt"></i> Compartir</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="lg:col-span-2 bg-gray-800 p-6 rounded-lg">
+                        <h3 class="font-bold text-xl mb-4">Resumen de Producción</h3>
+                        <div id="summary-content" class="text-gray-300 space-y-4">
+                            <p class="text-gray-500">Tu selección aparecerá aquí...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center py-8 border-t border-gray-800 mt-16">
+        <p>&copy; 2024 BRICK. Todos los derechos reservados.</p>
+        <div class="flex justify-center space-x-4 mt-4 text-gray-400">
+            <a href="#" class="hover:text-brick-red"><i class="fab fa-instagram"></i> Instagram</a>
+            <a href="#" class="hover:text-brick-red"><i class="fab fa-youtube"></i> YouTube</a>
+        </div>
+    </footer>
+
+    <!-- Modal para compartir -->
+    <div id="share-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-gray-800 rounded-lg p-8 max-w-lg w-full text-center relative">
+             <button id="close-modal-button" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl leading-none">&times;</button>
+            <h2 class="text-2xl font-bold mb-4">Compartí tu Hoja de Rodaje</h2>
+            <p class="text-gray-300 mb-6">Copiá este link para guardar tu selección o compartirla con tu equipo.</p>
+            <div class="flex items-center bg-gray-900 rounded-lg p-2">
+                <input type="text" id="share-link-input" class="bg-transparent text-gray-300 w-full p-2 outline-none" readonly>
+                <button id="copy-link-button" class="bg-brick-red text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700">Copiar</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // =================================================================================
+        // INSTRUCTIVO: ZONA DE EDICIÓN DE CONTENIDO
+        // =================================================================================
+        const serviceData = {
+            culinario: {
+                name: "Culinario",
+                icon: "fa-utensils",
+                videoId: "YOUTUBE_ID_CULINARIO",
+                image: "./img/genero-culinario.jpg",
+                scenarios: [
+                    { name: "Menú de Estreno", desc: "Soy nuevo o renové mi carta y necesito fotos y videos de mis platos para mis redes y apps de delivery. ¡Urgente!" },
+                    { name: "Sabor que Conecta", desc: "Siento que mis fotos no le hacen justicia a mis platos. Quiero que mis seguidores sientan el ambiente de mi local y la pasión de mi cocina." },
+                    { name: "Solo Edición", desc: "Ya tengo un montón de fotos y videos, pero necesito que un profesional les dé vida y los edite de forma atractiva y profesional." },
+                    { name: "Guion Abierto", desc: "Tengo otra idea en mente o me gustaría explorar las posibilidades juntos." }
+                ],
+                levels: {
+                    express: { name: "Producción Express", desc: "<strong>Entregables:</strong> Fotos de 10 platos clave, 5 videos para redes y contenido para apps. <strong>Rodaje:</strong> 1 persona, 3-4 horas, sin luces ni sonido externo.", icon: "fa-bolt" },
+                    indie: { name: "Producción Indie", desc: "<strong>Entregables:</strong> Cobertura fotográfica de todo el menú y videos de preparación. <strong>Rodaje:</strong> 1-2 personas, 5-6 horas, con iluminación básica.", icon: "fa-film" },
+                    estelar: { name: "Producción Estelar", desc: "<strong>Entregables:</strong> Un fashion film gastronómico con look de cine y cámara lenta. <strong>Rodaje:</strong> Equipo completo, jornada completa, iluminación pro y estabilizador.", icon: "fa-star" }
+                },
+                editingLevels: {
+                    dinamica: { name: "Edición Dinámica", desc: "<strong>Ideal para:</strong> Transformar las tomas de tus platos en videos cortos y atractivos para Reels y TikTok. Nos enfocamos en la agilidad y el impacto visual.", icon: "fa-cut" },
+                    narrativa: { name: "Montaje Narrativo", desc: "<strong>Ideal para:</strong> Crear un video que cuente la historia de un plato, del chef o del local. Construimos un relato que conecte emocionalmente.", icon: "fa-film" },
+                    estrategica: { name: "Campaña Estratégica", desc: "<strong>Ideal para:</strong> Lanzar una promoción o un nuevo plato. No solo editamos, creamos el concepto de la campaña, el nombre y las piezas de video para maximizar ventas.", icon: "fa-magic" }
+                },
+                addons: [
+                    { name: "Lentes Macro (Detalles)", icon: "fa-search-plus" },
+                    { name: "Cámara Lenta (Texturas)", icon: "fa-forward-step" },
+                    { name: "Video-Entrevista al Chef", icon: "fa-microphone" },
+                    { name: "Food Stylist", icon: "fa-hamburger" }
+                ],
+                editingAddons: [
+                    { name: "Subtítulos Animados", icon: "fa-closed-captioning" },
+                    { name: "Banco de Imágenes/Video", icon: "fa-images" },
+                    { name: "Contenido con IA", icon: "fa-robot" },
+                    { name: "Voz en Off", icon: "fa-microphone-alt" }
+                ]
+            },
+            ambientes: {
+                name: "Ambientes",
+                icon: "fa-building",
+                videoId: "YOUTUBE_ID_AMBIENTES",
+                image: "./img/genero-ambientes.jpg",
+                scenarios: [
+                    { name: "Soy Agente Inmobiliario", desc: "Necesito diferenciar mis propiedades en un mercado saturado, atraer compradores serios y acelerar las ventas." },
+                    { name: "Soy Arquitecto / Constructora", desc: "Quiero un video que no solo muestre la obra, sino que venda el estilo de vida y el valor de mi diseño." },
+                    { name: "Guion Abierto", desc: "Tengo otra idea en mente o me gustaría explorar las posibilidades juntos." }
+                ],
+                levels: {
+                    express: { name: "Producción Express", desc: "<strong>Entregables:</strong> Un video-recorrido dinámico y 10 fotos. <strong>Rodaje:</strong> 1 persona, 3-4 horas, con cámara pro y lente gran angular.", icon: "fa-bolt" },
+                    indie: { name: "Producción Indie", desc: "<strong>Entregables:</strong> Video-recorrido cinematográfico y 20 fotos. <strong>Rodaje:</strong> 1-2 personas, 5-6 horas, con iluminación y lentes teleobjetivo.", icon: "fa-film" },
+                    estelar: { name: "Producción Estelar", desc: "<strong>Entregables:</strong> Un spot publicitario de la propiedad. <strong>Rodaje:</strong> Equipo completo, jornada completa, estabilizador y Drone.", icon: "fa-star" }
+                },
+                addons: [
+                    { name: "Actor / Modelo Presentador", icon: "fa-user-plus" },
+                    { name: "Drone Cinematográfico", icon: "fa-helicopter" },
+                    { name: "Tour Virtual 360°", icon: "fa-vr-cardboard" },
+                    { name: "Video Nocturno / Atardecer", icon: "fa-moon" }
+                ]
+            },
+            moda: {
+                name: "Moda",
+                icon: "fa-shirt",
+                videoId: "YOUTUBE_ID_MODA",
+                image: "./img/genero-moda.jpg",
+                scenarios: [
+                    { name: "Lookbook Esencial", desc: "Mi prioridad es tener fotos de producto de alta calidad sobre fondo blanco para mi e-commerce y catálogo." },
+                    { name: "Colección en Movimiento", desc: "Siento que mi ropa tiene una historia y un movimiento que las fotos estáticas no capturan. Quiero un fashion film." },
+                    { name: "Solo Edición", desc: "Tengo las fotos y videos de mi última sesión y quiero que los transformen en contenido dinámico para redes." },
+                    { name: "Guion Abierto", desc: "Tengo otra idea en mente o me gustaría explorar las posibilidades juntos." }
+                ],
+                levels: {
+                    express: { name: "Producción Express", desc: "<strong>Entregables:</strong> Fotos de producto para todo tu catálogo. <strong>Rodaje:</strong> 1 persona, 3-4 horas, enfocado en fotografía de alta calidad.", icon: "fa-bolt" },
+                    indie: { name: "Producción Indie", desc: "<strong>Entregables:</strong> Un lookbook en video y fotos con modelo. <strong>Rodaje:</strong> 1-2 personas, 5-6 horas, con iluminación básica para moda.", icon: "fa-film" },
+                    estelar: { name: "Producción Estelar", desc: "<strong>Entregables:</strong> Un fashion film profesional para tu campaña. <strong>Rodaje:</strong> Equipo completo, jornada completa, dirección de arte, y cámaras de cine.", icon: "fa-star" }
+                },
+                 editingLevels: {
+                    dinamica: { name: "Edición Dinámica", desc: "<strong>Ideal para:</strong> Transformar las fotos de tu sesión en videos cortos para Reels y TikTok. <strong>Incluye:</strong> Animación de fotos (2.5D), transiciones, música.", icon: "fa-cut" },
+                    narrativa: { name: "Montaje Narrativo", desc: "<strong>Ideal para:</strong> Crear un video de campaña a partir de tus clips de video existentes, contando la historia de la colección.", icon: "fa-film" },
+                    estrategica: { name: "Campaña Estratégica", desc: "<strong>Ideal para:</strong> Crear una campaña completa para el lanzamiento de tu colección. <strong>Incluye:</strong> Concepto, nombre, edición de piezas para influencers y pauta.", icon: "fa-magic" }
+                },
+                addons: [
+                    { name: "Casting de Modelos", icon: "fa-user-plus" },
+                    { name: "Scouting de Locación", icon: "fa-map-marker-alt" },
+                    { name: "Maquillaje y Peinado", icon: "fa-air-freshener" },
+                    { name: "Dirección de Arte", icon: "fa-palette" }
+                ],
+                editingAddons: [
+                    { name: "Subtítulos Animados", icon: "fa-closed-captioning" },
+                    { name: "Banco de Imágenes/Video", icon: "fa-images" },
+                    { name: "Contenido con IA", icon: "fa-robot" },
+                    { name: "Voz en Off", icon: "fa-microphone-alt" }
+                ]
+            },
+            'marca-personal': {
+                name: "Marca Personal",
+                icon: "fa-user-tie",
+                videoId: "YOUTUBE_ID_MARCA_PERSONAL",
+                image: "./img/genero-marca-personal.jpg",
+                scenarios: [
+                    { name: "La Entrevista", desc: "Necesito un video de presentación que genere confianza y explique claramente qué hago y cómo ayudo a mis clientes." },
+                    { name: "Quiero ser un referente", desc: "Busco compartir lo que sé y posicionarme como una autoridad en mi campo a través de una serie de videos cortos." },
+                    { name: "Solo Edición", desc: "Tengo horas de material grabado (streams, charlas) y necesito que lo conviertan en clips virales para mis redes." },
+                    { name: "Guion Abierto", desc: "Tengo otra idea en mente o me gustaría explorar las posibilidades juntos." }
+                ],
+                levels: {
+                    express: { name: "Producción Express", desc: "<strong>Entregables:</strong> Un video 'Quién Soy' y 5 clips para redes. <strong>Rodaje:</strong> 1 persona, 2-3 horas, con cámara y sonido profesional.", icon: "fa-bolt" },
+                    indie: { name: "Producción Indie", desc: "<strong>Entregables:</strong> Una serie de 10-12 videos cortos. <strong>Rodaje:</strong> 1-2 personas, 4-5 horas, con iluminación básica y teleprompter.", icon: "fa-film" },
+                    estelar: { name: "Producción Estelar", desc: "<strong>Entregables:</strong> Tu propio mini-documental o una 'Masterclass'. <strong>Rodaje:</strong> Equipo completo, jornada completa, multi-cámara y calidad de cine.", icon: "fa-star" }
+                },
+                editingLevels: {
+                    dinamica: { name: "Edición Dinámica", desc: "<strong>Ideal para:</strong> Transformar tu material largo (streams, charlas) en videos cortos y virales para Reels/TikTok. <strong>Incluye:</strong> Cortes, subtítulos, música.", icon: "fa-cut" },
+                    narrativa: { name: "Montaje Narrativo", desc: "<strong>Ideal para:</strong> Crear un video educativo o inspirador para YouTube a partir de tus grabaciones, con una estructura clara.", icon: "fa-film" },
+                    estrategica: { name: "Campaña Estratégica", desc: "<strong>Ideal para:</strong> Lanzar un curso o un nuevo servicio. Creamos el concepto y editamos los videos de venta y promoción.", icon: "fa-magic" }
+                },
+                addons: [
+                    { name: "Guionista Profesional", icon: "fa-feather-alt" },
+                    { name: "Animaciones / Efectos", icon: "fa-magic" },
+                    { name: "Diseño de Miniaturas", icon: "fa-image" },
+                    { name: "Asesoría de Imagen", icon: "fa-user-check" }
+                ],
+                editingAddons: [
+                    { name: "Subtítulos Animados", icon: "fa-closed-captioning" },
+                    { name: "Banco de Imágenes/Video", icon: "fa-images" },
+                    { name: "Contenido con IA", icon: "fa-robot" },
+                    { name: "Voz en Off", icon: "fa-microphone-alt" }
+                ]
+            },
+            servicios: {
+                name: "Servicios",
+                icon: "fa-handshake",
+                videoId: "YOUTUBE_ID_SERVICIOS",
+                image: "./img/genero-servicios.jpg",
+                scenarios: [
+                    { name: "Plan Digital 360", desc: "Mi servicio es digital o no requiere un local. Necesito mantener mis redes activas con diseño profesional, pero sin un rodaje por ahora." },
+                    { name: "El Valor de mi Trabajo", desc: "Quiero que mis futuros clientes vean la calidad y el profesionalismo de mi servicio en acción, no solo que se los cuenten." },
+                    { name: "Guion Abierto", desc: "Tengo otra idea en mente o me gustaría explorar las posibilidades juntos." }
+                ],
+                levels: {
+                    express: { name: "Producción Express", desc: "<strong>Entregables:</strong> Videos testimoniales de tus clientes. <strong>Rodaje:</strong> 1 persona, 3-4 horas, enfocado en entrevistas de alta calidad.", icon: "fa-bolt" },
+                    indie: { name: "Producción Indie", desc: "<strong>Entregables:</strong> Un video explicativo de tu servicio con imágenes de apoyo. <strong>Rodaje:</strong> 1-2 personas, 5-6 horas, con iluminación y sonido profesional.", icon: "fa-film" },
+                    estelar: { name: "Producción Estelar", desc: "<strong>Entregables:</strong> Un spot publicitario que cuente la historia y el valor de tu servicio. <strong>Rodaje:</strong> Equipo completo, jornada completa, actores y calidad de cine.", icon: "fa-star" }
+                },
+                 editingLevels: {
+                    dinamica: { name: "Diseño de Posts", desc: "<strong>Ideal para:</strong> Crear placas y carruseles para Instagram. <strong>Incluye:</strong> Diseño gráfico, uso de banco de imágenes, copywritting.", icon: "fa-pencil-ruler" },
+                    narrativa: { name: "Video con IA", desc: "<strong>Ideal para:</strong> Generar videos cortos a partir de texto o imágenes con herramientas de IA. <strong>Incluye:</strong> Creación de guion, generación y edición.", icon: "fa-robot" },
+                    estrategica: { name: "Estrategia Completa", desc: "<strong>Ideal para:</strong> Un plan de contenido mensual 100% digital. <strong>Incluye:</strong> Diseño, copy, videos con IA y gestión de comunidad.", icon: "fa-magic" }
+                },
+                addons: [
+                    { name: "Videos Testimoniales", icon: "fa-comment-dots" },
+                    { name: "Fotografía Profesional", icon: "fa-camera-retro" },
+                    { name: "Voz en Off Profesional", icon: "fa-microphone-alt" },
+                    { name: "Guionista", icon: "fa-feather-alt" }
+                ],
+                editingAddons: [
+                    { name: "Subtítulos Animados", icon: "fa-closed-captioning" },
+                    { name: "Banco de Imágenes/Video", icon: "fa-images" },
+                    { name: "Copywriting para Redes", icon: "fa-pencil-alt" }
+                ]
+            },
+            comercios: {
+                name: "Comercios",
+                icon: "fa-store",
+                videoId: "YOUTUBE_ID_COMERCIOS",
+                image: "./img/genero-comercios.jpg",
+                scenarios: [
+                    { name: "Vidriera Digital", desc: "Necesito fotos y videos atractivos de mis productos y de mi local para atraer gente tanto a la tienda física como online." },
+                    { name: "La Experiencia de Compra", desc: "Quiero mostrar el ambiente de mi local, la atención y por qué visitarnos es una experiencia única, no solo una transacción." },
+                    { name: "Guion Abierto", desc: "Tengo otra idea en mente o me gustaría explorar las posibilidades juntos." }
+                ],
+                levels: {
+                    express: { name: "Producción Express", desc: "<strong>Entregables:</strong> Un pack de fotos y videos de tus productos más vendidos. <strong>Rodaje:</strong> 1 persona, 3-4 horas.", icon: "fa-bolt" },
+                    indie: { name: "Producción Indie", desc: "<strong>Entregables:</strong> Videos que muestren la experiencia de visitar tu local. <strong>Rodaje:</strong> 1-2 personas, 5-6 horas, con iluminación para destacar el ambiente.", icon: "fa-film" },
+                    estelar: { name: "Producción Estelar", desc: "<strong>Entregables:</strong> Un spot publicitario que capture la esencia de tu comercio. <strong>Rodaje:</strong> Equipo completo, jornada completa y calidad de cine.", icon: "fa-star" }
+                },
+                addons: [
+                    { name: "Fotografía de Producto", icon: "fa-camera" },
+                    { name: "Videos UGC (Clientes)", icon: "fa-users" },
+                    { name: "Recorrido del Local", icon: "fa-walking" },
+                    { name: "Diseño para Redes", icon: "fa-palette" }
+                ]
+            },
+            eventos: {
+                name: "Eventos",
+                icon: "fa-ticket",
+                videoId: "YOUTUBE_ID_EVENTOS",
+                image: "./img/genero-eventos.jpg",
+                scenarios: [
+                    { name: "El Tráiler", desc: "Necesito un video promocional para vender entradas y generar expectativa para mi próximo evento." },
+                    { name: "El Aftermovie", desc: "Quiero un video resumen que capture la energía y los mejores momentos del evento." },
+                    { name: "Solo Edición", desc: "¡Ya tengo todo grabado! Necesito un editor que una las piezas y cree una historia increíble." },
+                    { name: "Guion Abierto", desc: "Tengo otra idea en mente o me gustaría explorar las posibilidades juntos." }
+                ],
+                levels: {
+                    express: { name: "Producción Express", desc: "<strong>Entregables:</strong> Un reel promocional o un aftermovie corto y dinámico. <strong>Rodaje:</strong> 1 persona, 3-4 horas de cobertura.", icon: "fa-bolt" },
+                    indie: { name: "Producción Indie", desc: "<strong>Entregables:</strong> Cobertura más completa con entrevistas a asistentes. <strong>Rodaje:</strong> 1-2 personas, 5-6 horas, con mejor equipamiento de sonido y luces.", icon: "fa-film" },
+                    estelar: { name: "Producción Estelar", desc: "<strong>Entregables:</strong> Un aftermovie de calidad cinematográfica. <strong>Rodaje:</strong> Equipo completo, cobertura total, multi-cámara, drone y estabilizador.", icon: "fa-star" }
+                },
+                editingLevels: {
+                    dinamica: { name: "Edición Dinámica", desc: "<strong>Ideal para:</strong> Crear reels y videos cortos a partir del material grabado de tu evento. <strong>Incluye:</strong> Sincronización con música, cortes dinámicos.", icon: "fa-cut" },
+                    narrativa: { name: "Montaje Narrativo", desc: "<strong>Ideal para:</strong> Construir el aftermovie oficial del evento. <strong>Incluye:</strong> Edición de historia, selección de mejores momentos.", icon: "fa-film" },
+                    estrategica: { name: "Campaña Estratégica", desc: "<strong>Ideal para:</strong> Crear una serie de videos post-evento para mantener el hype. <strong>Incluye:</strong> Edición de entrevistas, teasers para el próximo año.", icon: "fa-magic" }
+                },
+                addons: [
+                    { name: "Influencer / Host", icon: "fa-star" },
+                    { name: "Transmisión en Vivo (Stream)", icon: "fa-video" },
+                    { name: "Fotografía del Evento", icon: "fa-camera-retro" },
+                    { name: "Dirección de Arte", icon: "fa-palette" }
+                ],
+                 editingAddons: [
+                    { name: "Subtítulos Animados", icon: "fa-closed-captioning" },
+                    { name: "Banco de Imágenes/Video", icon: "fa-images" },
+                    { name: "Contenido con IA", icon: "fa-robot" },
+                    { name: "Voz en Off", icon: "fa-microphone-alt" }
+                ]
+            },
+            'grandes-marcas': {
+                name: "Grandes Marcas",
+                icon: "fa-crown",
+                videoId: "YOUTUBE_ID_MARCAS",
+                image: "./img/genero-marcas.jpg",
+                scenarios: [
+                    { name: "Always On Mensual", desc: "Necesito contenido constante y de alta calidad para mantener mis redes activas, relevantes y conectadas con mi audiencia." },
+                    { name: "Campaña de Lanzamiento", desc: "Tengo un nuevo producto o un gran anuncio. Necesito una campaña de alto impacto que genere ruido y resultados." },
+                    { name: "Guion Abierto", desc: "Tengo otra idea en mente o me gustaría explorar las posibilidades juntos." }
+                ],
+                levels: {
+                    express: { name: "Producción Express", desc: "<strong>Entregables:</strong> Un paquete de contenido mensual para redes (Reels, Stories). <strong>Rodaje:</strong> Planificado mensualmente, ágil y efectivo.", icon: "fa-bolt" },
+                    indie: { name: "Producción Indie", desc: "<strong>Entregables:</strong> Contenido mensual con mayor elaboración y planificación estratégica. <strong>Rodaje:</strong> Jornadas completas con equipo profesional.", icon: "fa-film" },
+                    estelar: { name: "Producción Estelar", desc: "<strong>Entregables:</strong> Una campaña publicitaria completa con calidad de cine. <strong>Rodaje:</strong> Pre-producción, rodaje y post-producción de alto nivel.", icon: "fa-star" }
+                },
+                addons: [
+                    { name: "Estrategia de Contenido", icon: "fa-chess-board" },
+                    { name: "Dirección de Arte", icon: "fa-palette" },
+                    { name: "Música Original", icon: "fa-music" },
+                    { name: "Gestión de Pauta", icon: "fa-bullhorn" }
+                ]
+            }
+        };
+        
+        // ======================= FIN DE LA ZONA DE EDICIÓN =======================
+
+        const state = { genre: null, scenario: null, level: null, addons: new Set() };
+        const sections = { step2: document.getElementById('step2'), step3: document.getElementById('step3'), step4: document.getElementById('step4'), step5: document.getElementById('step5') };
+
+        function showSection(sectionId) {
+            if (sections[sectionId]) {
+                sections[sectionId].classList.remove('section-hidden');
+                sections[sectionId].classList.add('section-visible');
+            }
+        }
+
+        function renderGenres() {
+            const container = document.getElementById('genre-selector');
+            container.innerHTML = ''; 
+            for (const key in serviceData) {
+                const genre = serviceData[key];
+                const card = document.createElement('div');
+                card.className = "genre-card movie-poster-card relative rounded-lg overflow-hidden cursor-pointer border-2 border-transparent";
+                card.dataset.genre = key;
+                card.style.backgroundImage = `url(${genre.image})`;
+                card.innerHTML = `
+                    <div class="movie-poster-overlay absolute inset-0 flex flex-col items-center justify-end p-4 text-center">
+                        <i class="fas ${genre.icon} text-2xl mb-2"></i>
+                        <h3 class="text-lg font-bold">${genre.name}</h3>
+                    </div>
+                `;
+                card.addEventListener('click', () => selectGenre(key));
+                container.appendChild(card);
+            }
+        }
+
+        function selectGenre(key) {
+            state.genre = key;
+            state.scenario = null;
+            state.level = null;
+            state.addons.clear();
+
+            document.querySelectorAll('.genre-card').forEach(c => c.classList.remove('border-brick-red', 'ring-4'));
+            document.querySelector(`[data-genre="${key}"]`).classList.add('border-brick-red', 'ring-4');
+            
+            const videoId = serviceData[key].videoId;
+            document.getElementById('hero-video-iframe').src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&autohide=1&modestbranding=1&vq=hd1080`;
+            
+            renderScenarios(key);
+            updateSummary();
+            showSection('step2');
+            sections.step2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function renderScenarios(genreKey) {
+            const container = document.getElementById('scenario-container');
+            container.innerHTML = '';
+            serviceData[genreKey].scenarios.forEach((scenario, index) => {
+                const card = document.createElement('div');
+                card.className = "scenario-card bg-gray-900 p-6 rounded-lg border-2 border-gray-800 flex flex-col cursor-pointer hover:border-brick-red transition-all";
+                card.dataset.scenarioIndex = index;
+                card.innerHTML = `
+                    <h3 class="text-xl font-bold text-brick-red">${scenario.name}</h3>
+                    <p class="text-gray-400 mt-2 flex-grow">${scenario.desc}</p>
+                `;
+                card.addEventListener('click', () => selectScenario(index));
+                container.appendChild(card);
+            });
+        }
+        
+        function selectScenario(index) {
+            state.scenario = serviceData[state.genre].scenarios[index];
+            state.level = null;
+            state.addons.clear();
+
+            document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('border-brick-red', 'ring-2'));
+            document.querySelector(`[data-scenario-index="${index}"]`).classList.add('border-brick-red', 'ring-2');
+
+            const isDigitalScenario = state.scenario.name.toLowerCase().includes('edición') || state.scenario.name.toLowerCase().includes('digital');
+            renderLevels(isDigitalScenario);
+            updateSummary();
+            showSection('step3');
+            sections.step3.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        
+        function renderLevels(isDigital) {
+            const container = document.getElementById('level-container');
+            const title = document.getElementById('step3-title');
+            const subtitle = document.getElementById('step3-subtitle');
+            container.innerHTML = '';
+
+            const genreData = serviceData[state.genre];
+            const levels = isDigital ? genreData.editingLevels : genreData.levels;
+            
+            title.textContent = isDigital ? 'Ladrillo Tres: Definí el nivel de post-producción' : 'Ladrillo Tres: Definí el nivel de producción';
+            subtitle.textContent = isDigital ? 'Desde clips rápidos hasta una post-producción de cine.' : 'Desde una escena clave hasta una superproducción.';
+
+            for(const key in levels) {
+                const level = levels[key];
+                const card = document.createElement('div');
+                card.className = "level-card bg-gray-900 p-6 rounded-lg border-2 border-gray-800 flex flex-col cursor-pointer hover:border-brick-red transition-all";
+                card.dataset.levelKey = key;
+                card.innerHTML = `
+                    <i class="fas ${level.icon} text-3xl text-brick-red mb-4"></i>
+                    <h3 class="text-xl font-bold">${level.name}</h3>
+                    <p class="text-gray-400 mt-2 flex-grow">${level.desc}</p>
+                `;
+                card.addEventListener('click', () => selectLevel(key, isDigital));
+                container.appendChild(card);
+            }
+        }
+
+        function selectLevel(key, isDigital) {
+            const genreData = serviceData[state.genre];
+            const levels = isDigital ? genreData.editingLevels : genreData.levels;
+            state.level = levels[key];
+            state.addons.clear();
+
+            document.querySelectorAll('.level-card').forEach(c => c.classList.remove('border-brick-red', 'ring-2'));
+            document.querySelector(`[data-level-key="${key}"]`).classList.add('border-brick-red', 'ring-2');
+
+            renderAddons(isDigital);
+            updateSummary();
+            showSection('step4');
+            showSection('step5'); 
+            sections.step4.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function renderAddons(isDigital) {
+            const container = document.getElementById('addons-container');
+            const title = document.getElementById('step4-title');
+            const subtitle = document.getElementById('step4-subtitle');
+            container.innerHTML = '';
+            
+            const genreData = serviceData[state.genre];
+            const addons = isDigital ? genreData.editingAddons : genreData.addons;
+
+            title.textContent = isDigital ? 'Ladrillos Extras: Potenciá tu Edición' : 'Ladrillos Extras: Arma tu Historia';
+            subtitle.textContent = isDigital ? 'Agregá herramientas y efectos para un resultado final increíble.' : 'Imaginá tu producción ideal. Agregá personajes y efectos especiales.';
+
+
+            if (!addons || addons.length === 0) {
+                sections.step4.classList.add('section-hidden'); 
+                return;
+            } else {
+                 sections.step4.classList.remove('section-hidden');
+            }
+
+            let addonsHtml = '<div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">';
+            addons.forEach(addon => {
+                addonsHtml += `
+                    <label class="flex items-center space-x-3 cursor-pointer p-3 rounded-md hover:bg-gray-800 transition-all">
+                        <input type="checkbox" class="addon-checkbox h-5 w-5 bg-gray-700 border-gray-600 rounded-sm text-brick-red focus:ring-brick-red" data-name="${addon.name}">
+                        <i class="fas ${addon.icon} text-gray-400 w-5 text-center"></i>
+                        <span>${addon.name}</span>
+                    </label>
+                `;
+            });
+            addonsHtml += '</div><p class="text-center text-gray-500 mt-6 text-sm">Estas opciones son orientativas. ¡Podemos construir cualquier idea que tengas!</p>';
+            container.innerHTML = addonsHtml;
+            document.querySelectorAll('.addon-checkbox').forEach(cb => cb.addEventListener('change', (e) => toggleAddon(e.target.dataset.name, e.target.checked)));
+        }
+
+        function toggleAddon(name, isChecked) {
+            if (isChecked) state.addons.add(name);
+            else state.addons.delete(name);
+            updateSummary();
+        }
+
+        function updateSummary() {
+            const summaryContent = document.getElementById('summary-content');
+            const shareButton = document.getElementById('share-button');
+            if (!state.genre || !state.scenario || !state.level) {
+                summaryContent.innerHTML = '<p class="text-gray-500">Tu selección aparecerá aquí...</p>';
+                document.getElementById('submit-button').disabled = true;
+                shareButton.disabled = true;
+                return;
+            }
+            
+            shareButton.disabled = false;
+            let html = `
+                <p><strong>Género:</strong> ${serviceData[state.genre].name}</p>
+                <p><strong>Escenario:</strong> ${state.scenario.name}</p>
+                <p><strong>Nivel Seleccionado:</strong> ${state.level.name}</p>
+            `;
+            
+            if (state.addons.size > 0) {
+                html += '<p class="mt-4"><strong>Ladrillos Extras:</strong></p><ul class="list-disc list-inside text-gray-400">';
+                state.addons.forEach(addon => { html += `<li>${addon}</li>`; });
+                html += '</ul>';
+            }
+            
+            summaryContent.innerHTML = html;
+            validateForm();
+        }
+
+        function validateForm() {
+            const name = document.getElementById('client-name').value;
+            const email = document.getElementById('client-email').value;
+            const business = document.getElementById('client-business').value;
+            document.getElementById('submit-button').disabled = !(state.level && name && email && business);
+        }
+
+        document.getElementById('client-form').addEventListener('input', validateForm);
+        document.getElementById('submit-button').addEventListener('click', (e) => {
+            e.preventDefault();
+            const clientName = document.getElementById('client-name').value;
+            const clientEmail = document.getElementById('client-email').value;
+            const clientBusiness = document.getElementById('client-business').value;
+
+            let emailBody = `Nueva solicitud de Reunión Creativa desde la web de BRICK:\n\n--- DATOS DEL DIRECTOR/A ---\nNombre: ${clientName}\nEmail: ${clientEmail}\nProducción (Marca): ${clientBusiness}\n\n--- HOJA DE RODAJE PRELIMINAR ---\nGénero: ${serviceData[state.genre].name}\nEscenario: ${state.scenario.name}\nNivel Seleccionado: ${state.level.name}\n\n`;
+            if (state.addons.size > 0) {
+                emailBody += `Ladrillos Extras Solicitados:\n`;
+                state.addons.forEach(addon => { emailBody += `- ${addon}\n`; });
+            }
+            emailBody += `\n----------------------------------\nEl cliente ha solicitado una reunión gratuita para discutir este plan. Por favor, contactar para coordinar.`;
+            const subject = `Solicitud de Reunión Creativa para ${clientBusiness}`;
+            
+            const mailtoLink = `mailto:TU_EMAIL_AQUI@brick.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+            window.location.href = mailtoLink;
+        });
+
+        const shareButton = document.getElementById('share-button');
+        const shareModal = document.getElementById('share-modal');
+        const closeModalButton = document.getElementById('close-modal-button');
+        const copyLinkButton = document.getElementById('copy-link-button');
+        const shareLinkInput = document.getElementById('share-link-input');
+
+        shareButton.addEventListener('click', () => {
+            const baseUrl = window.location.href.split('?')[0];
+            let params = `?g=${state.genre}`;
+            
+            const scenarioIndex = serviceData[state.genre].scenarios.findIndex(s => s.name === state.scenario.name);
+            params += `&s=${scenarioIndex}`;
+            
+            const isDigital = state.scenario.name.toLowerCase().includes('edición') || state.scenario.name.toLowerCase().includes('digital');
+            const levels = isDigital ? serviceData[state.genre].editingLevels : serviceData[state.genre].levels;
+            const levelKey = Object.keys(levels).find(k => levels[k].name === state.level.name);
+            params += `&l=${levelKey}`;
+            
+            if (state.addons.size > 0) {
+                const addonIndices = [];
+                const genreAddons = (isDigital ? serviceData[state.genre].editingAddons : serviceData[state.genre].addons).map(a => a.name);
+                state.addons.forEach(addonName => {
+                    const index = genreAddons.indexOf(addonName);
+                    if(index > -1) addonIndices.push(index);
+                });
+                params += `&a=${addonIndices.join(',')}`;
+            }
+
+            shareLinkInput.value = baseUrl + params;
+            shareModal.classList.remove('hidden');
+        });
+        
+        closeModalButton.addEventListener('click', () => shareModal.classList.add('hidden'));
+        copyLinkButton.addEventListener('click', () => {
+            shareLinkInput.select();
+            document.execCommand('copy');
+            copyLinkButton.textContent = '¡Copiado!';
+            setTimeout(() => { copyLinkButton.textContent = 'Copiar'; }, 2000);
+        });
+
+        function readUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            const genre = params.get('g');
+            const scenario = params.get('s');
+            const level = params.get('l');
+            const addons = params.get('a');
+
+            if (genre && serviceData[genre]) {
+                selectGenre(genre);
+                if (scenario && serviceData[genre].scenarios[scenario]) {
+                    selectScenario(scenario);
+                    const isDigital = serviceData[genre].scenarios[scenario].name.toLowerCase().includes('edición') || serviceData[genre].scenarios[scenario].name.toLowerCase().includes('digital');
+                    const levels = isDigital ? serviceData[genre].editingLevels : serviceData[genre].levels;
+                    if (level && levels[level]) {
+                        selectLevel(level, isDigital);
+                        if (addons) {
+                            const addonIndices = addons.split(',');
+                            const addonCheckboxes = document.querySelectorAll('.addon-checkbox');
+                            const currentAddons = isDigital ? serviceData[genre].editingAddons : serviceData[genre].addons;
+                            addonIndices.forEach(index => {
+                                const addonName = currentAddons[index]?.name;
+                                if(addonName) {
+                                    state.addons.add(addonName);
+                                    addonCheckboxes.forEach(cb => {
+                                        if(cb.dataset.name === addonName) cb.checked = true;
+                                    });
+                                }
+                            });
+                            updateSummary();
+                        }
+                    }
+                }
+            }
+        }
+
+        renderGenres();
+        readUrlParams();
+    });
+    </script>
+</body>
+</html>

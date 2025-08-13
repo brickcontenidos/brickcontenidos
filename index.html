@@ -28,7 +28,7 @@
 
         .video-background-container {
             position: relative;
-            width: 100%;
+            width: 100vw; /* Ocupa el 100% del ancho de la ventana */
             height: 70vh;
             overflow: hidden;
         }
@@ -36,8 +36,11 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 100%;
-            height: 100%;
+            /* Asegura que el video cubra todo el espacio sin importar la proporción */
+            width: 177.77vh; /* 16/9 aspect ratio */
+            min-width: 100vw;
+            height: 56.25vw; /* 16/9 aspect ratio */
+            min-height: 100vh;
             transform: translate(-50%, -50%);
             pointer-events: none;
         }
@@ -47,7 +50,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to top, #0a0a0a 5%, rgba(0,0,0,0.8) 50%, #0a0a0a 95%);
+            background: linear-gradient(to top, #0a0a0a 5%, rgba(0,0,0,0.6) 50%, #0a0a0a 95%);
         }
         .section-hidden {
             display: none;
@@ -101,7 +104,7 @@
 
     <!-- HERO SECTION -->
     <header class="video-background-container">
-        <iframe id="hero-video-iframe" src="https://www.youtube.com/embed/YOUTUBE_ID_GENERAL?autoplay=1&mute=1&loop=1&playlist=YOUTUBE_ID_GENERAL&controls=0&showinfo=0&autohide=1&modestbranding=1&vq=hd1080" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <iframe id="hero-video-iframe" src="https://www.youtube.com/embed/fJIMPigDzgg?autoplay=1&mute=1&loop=1&playlist=fJIMPigDzgg&controls=0&showinfo=0&autohide=1&modestbranding=1&vq=hd1080" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         <div class="video-overlay"></div>
         <div class="relative z-10 flex flex-col items-center justify-center h-full text-center p-4">
             <img src="./img/logo-brick-white.png" alt="Logo de BRICK" class="h-16 mb-4" onerror="this.onerror=null;this.src='https://placehold.co/200x64/0a0a0a/ffffff?text=BRICK';">
@@ -113,6 +116,7 @@
         </div>
     </header>
 
+    <!-- El <main> ahora empieza DESPUÉS del header para que el video sea full-width -->
     <main class="container mx-auto">
 
         <!-- LADRILLO 1: GÉNERO -->

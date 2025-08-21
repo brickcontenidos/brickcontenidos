@@ -119,6 +119,7 @@
                 <div id="contact-form-container" class="bg-gray-900 p-8 rounded-lg text-left">
                     <form id="contact-form" name="solicitud-produccion" method="POST" data-netlify="true">
                         <input type="hidden" name="form-name" value="solicitud-produccion" />
+                        <input type="hidden" name="asunto" value="Consulta de Contacto Directo/Promoción" />
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                             <div>
                                 <label for="contact-name" class="block text-gray-400 mb-2">Tu Nombre</label>
@@ -138,12 +139,8 @@
                             </div>
                         </div>
                         <div class="mb-6">
-                            <label for="contact-idea" class="block text-gray-400 mb-2">Tu idea</label>
-                            <textarea id="contact-idea" name="idea" rows="4" class="w-full bg-gray-800 border border-gray-700 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-brick-red placeholder-custom" placeholder="Ej: Tengo un vivero con atención al público y necesito contenido mensual para redes" required></textarea>
-                        </div>
-                        <div class="mb-6">
-                            <label for="contact-refs" class="block text-gray-400 mb-2">Referencias (opcional)</label>
-                            <textarea id="contact-refs" name="referencias" rows="2" class="w-full bg-gray-800 border border-gray-700 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-brick-red" placeholder="Pegá links o describí lo que te gusta"></textarea>
+                            <label for="contact-idea" class="block text-gray-400 mb-2">Tu idea / Consulta</label>
+                            <textarea id="contact-idea" name="idea" rows="4" class="w-full bg-gray-800 border border-gray-700 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-brick-red placeholder-custom" placeholder="Ej: Tengo un vivero y necesito contenido para redes." required></textarea>
                         </div>
                         <button type="submit" class="w-full bg-brick-red text-white font-bold text-lg py-3 px-4 rounded-lg hover:bg-red-700 transition-all duration-300">Enviar Consulta</button>
                     </form>
@@ -192,6 +189,7 @@
                       <p class="text-gray-400 mb-6">Nuestro equipo se comunicará para coordinar una <strong>reunión gratuita</strong> y darle vida a tu proyecto.</p>
                       <form id="client-form" name="solicitud-produccion" method="POST" data-netlify="true" class="flex flex-col flex-grow">
                           <input type="hidden" name="form-name" value="solicitud-produccion" />
+                          <input type="hidden" name="asunto" value="Solicitud de Reunión (desde Explorar Rubros)" />
                           <div class="mb-4">
                             <label for="client-name" class="block text-gray-400 mb-1">Tu Nombre</label>
                             <input type="text" id="client-name" name="nombre" class="w-full bg-gray-800 border border-gray-700 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-brick-red" required>
@@ -204,7 +202,11 @@
                             <label for="client-business" class="block text-gray-400 mb-1">Tu Marca</label>
                             <input type="text" id="client-business" name="marca" class="w-full bg-gray-800 border border-gray-700 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-brick-red" required>
                           </div>
-                          <input type="hidden" name="resumen_produccion" id="hidden-summary-input">
+                          <!-- **MODIFIED**: Replaced hidden input with a visible, readonly textarea -->
+                          <div class="mb-4 flex-grow flex flex-col">
+                            <label for="summary-textarea" class="block text-gray-400 mb-1">Resumen de Producción</label>
+                            <textarea id="summary-textarea" name="resumen_produccion" rows="8" class="w-full bg-gray-800 border border-gray-700 rounded-md p-3 text-gray-300 text-sm flex-grow" readonly></textarea>
+                          </div>
                           <div class="mt-auto">
                             <p class="text-gray-500 text-xs text-center mb-2">Enviar encuesta orientativa</p>
                             <button type="submit" id="submit-button" class="w-full bg-brick-red text-white font-bold text-lg py-3 px-4 rounded-lg hover:bg-red-700 transition-all duration-300 disabled:bg-gray-600 disabled:cursor-not-allowed" disabled>Solicitar Reunión</button>
@@ -513,7 +515,7 @@
     }
     
     // Attach event listeners to the main navigation buttons.
-    document.getElementById('btn-know-what-i-want').addEventListener('click', () => showContactForm());
+    document.getElementById('btn-know-what-i-want').addEventListener('click', () => showContactForm('Tengo una idea clara para un proyecto.'));
     document.getElementById('btn-explore').addEventListener('click', () => showMainView('explore'));
     document.getElementById('btn-promos').addEventListener('click', () => showMainView('promos'));
 
@@ -936,6 +938,13 @@
             }
         }
         
+        // **MODIFIED**: This now updates the visible textarea in the client form
+        const summaryTextarea = document.getElementById('summary-textarea');
+        if (summaryTextarea) {
+            // We use innerText to get a clean, unformatted text representation of the summary
+            summaryTextarea.value = summaryContainer.innerText.trim();
+        }
+
         validateForm();
     }
 
@@ -954,8 +963,7 @@
     if (clientForm) {
         clientForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            const summaryDiv = document.getElementById('summary-content');
-            document.getElementById('hidden-summary-input').value = summaryDiv.innerText.trim();
+            // The textarea is now part of the form, so no extra JS is needed to populate it on submit.
             const formData = new FormData(this);
             const submitButton = document.getElementById('submit-button');
             submitButton.disabled = true;

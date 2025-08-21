@@ -60,11 +60,6 @@
     .option-card:hover .option-card-overlay {
         background-color: rgba(0,0,0,0.4);
     }
-    /* **MODIFIED**: Style to make textarea non-interactive for the user */
-    .non-editable {
-        pointer-events: none;
-        background-color: #1f2937; /* A slightly different bg to indicate it's not a standard input */
-    }
   </style>
 </head>
 <body class="text-white">
@@ -207,10 +202,10 @@
                             <label for="client-business" class="block text-gray-400 mb-1">Tu Marca</label>
                             <input type="text" id="client-business" name="marca" class="w-full bg-gray-800 border border-gray-700 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-brick-red" required>
                           </div>
-                          <!-- **MODIFIED**: Removed readonly, added .non-editable class -->
+                          <!-- **MODIFIED**: This is now a standard, editable textarea -->
                           <div class="mb-4 flex-grow flex flex-col">
                             <label for="summary-textarea" class="block text-gray-400 mb-1">Resumen de Producción</label>
-                            <textarea id="summary-textarea" name="resumen_produccion" rows="8" class="w-full border border-gray-700 rounded-md p-3 text-gray-300 text-sm flex-grow non-editable"></textarea>
+                            <textarea id="summary-textarea" name="resumen_produccion" rows="8" class="w-full bg-gray-800 border border-gray-700 rounded-md p-3 text-gray-300 text-sm flex-grow"></textarea>
                           </div>
                           <div class="mt-auto">
                             <p class="text-gray-500 text-xs text-center mb-2">Enviar encuesta orientativa</p>

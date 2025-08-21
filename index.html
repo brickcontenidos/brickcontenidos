@@ -60,6 +60,11 @@
     .option-card:hover .option-card-overlay {
         background-color: rgba(0,0,0,0.4);
     }
+    /* **MODIFIED**: Style to make textarea non-interactive for the user */
+    .non-editable {
+        pointer-events: none;
+        background-color: #1f2937; /* A slightly different bg to indicate it's not a standard input */
+    }
   </style>
 </head>
 <body class="text-white">
@@ -202,10 +207,10 @@
                             <label for="client-business" class="block text-gray-400 mb-1">Tu Marca</label>
                             <input type="text" id="client-business" name="marca" class="w-full bg-gray-800 border border-gray-700 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-brick-red" required>
                           </div>
-                          <!-- **MODIFIED**: Replaced hidden input with a visible, readonly textarea -->
+                          <!-- **MODIFIED**: Removed readonly, added .non-editable class -->
                           <div class="mb-4 flex-grow flex flex-col">
                             <label for="summary-textarea" class="block text-gray-400 mb-1">Resumen de Producción</label>
-                            <textarea id="summary-textarea" name="resumen_produccion" rows="8" class="w-full bg-gray-800 border border-gray-700 rounded-md p-3 text-gray-300 text-sm flex-grow" readonly></textarea>
+                            <textarea id="summary-textarea" name="resumen_produccion" rows="8" class="w-full border border-gray-700 rounded-md p-3 text-gray-300 text-sm flex-grow non-editable"></textarea>
                           </div>
                           <div class="mt-auto">
                             <p class="text-gray-500 text-xs text-center mb-2">Enviar encuesta orientativa</p>
@@ -354,7 +359,7 @@
         intro: "Necesitás contenido para mostrar cuál es tu servicio y atraer clientes.",
         textInput: { label: "¿Cómo se llama tu servicio?", placeholder: "Ej: Barbería Brick", key: "nombre_servicio" },
         scenarios: [
-            { name: "Local de Servicios", desc: "Tengo un local a la calle donde ofrezco un servicio (ej: barbería), necesito mostrar el local y mi trabajo para atraer clientes." },
+            { name: "Local de Servicios", desc: "Tengo un local a la calle donde ofreco un servicio (ej: barbería), necesito mostrar el local y mi trabajo para atraer clientes." },
             { 
                 name: "Servicios Móviles", 
                 desc: "Ofrezco un servicio y lo llevo a cabo en distintos lugares (ej: servicio de catering). Necesito mostrar cómo trabajo y el servicio que ofrezco.",
@@ -938,10 +943,8 @@
             }
         }
         
-        // **MODIFIED**: This now updates the visible textarea in the client form
         const summaryTextarea = document.getElementById('summary-textarea');
         if (summaryTextarea) {
-            // We use innerText to get a clean, unformatted text representation of the summary
             summaryTextarea.value = summaryContainer.innerText.trim();
         }
 
@@ -963,7 +966,6 @@
     if (clientForm) {
         clientForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            // The textarea is now part of the form, so no extra JS is needed to populate it on submit.
             const formData = new FormData(this);
             const submitButton = document.getElementById('submit-button');
             submitButton.disabled = true;
